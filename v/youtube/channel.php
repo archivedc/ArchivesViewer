@@ -39,7 +39,7 @@ $contents = v_youtube_getChannelContents($chd);
                         <img src="thumb.php?channel=<?= $_GET['channel'] ?>&id=<?= $info['id'] ?>" class="card-img-top" alt="Thumbnail">
                         <div class="card-body">
                             <h5 class="card-title"><a href="watch.php?channel=<?= $_GET['channel'] ?>&id=<?= $info['id'] ?>"><?= $info['title'] ?></a></h5>
-                            <p class="card-text"><small class="text-muted"><?= $info['release_date'] ?? '' ?></small></p>
+                            <p class="card-text"><small class="text-muted"><?= $info['release_date'] ?? $info['upload_date'] ?? '' ?></small></p>
                         </div>
                     </div>
                 </div>
