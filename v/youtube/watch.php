@@ -28,6 +28,13 @@ $sinfo = v_youtube_getChannelStoreInfo($chd);
 </head>
 
 <body>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="channels.php">YouTube Archive</a></li>
+            <li class="breadcrumb-item"><a href="channel.php?channel=<?= $_GET['channel'] ?>"><?= $chi['uploader'] ?></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= $vid['info']['title'] ?></li>
+        </ol>
+    </nav>
     <div class="container">
         <div class="row mt-3">
             <div class="col">
