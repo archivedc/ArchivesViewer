@@ -94,6 +94,32 @@ function v_youtube_getVideoThumbBin($chdir, $vpref)
     return null;
 }
 
+function v_youtube_getSubtitles($chdir, $vidpref)
+{
+    $toret = array();
+
+    foreach (scandir($chdir) as $file) {
+        if (str_starts_with($file, $vidpref) && str_ends_with($file, '.vtt')) {
+            $fdot = explode('.', $file);
+            $lang = $fdot[count($fdot) - 2];
+            $toret += array(
+                $lang => $file
+            );
+        }
+    }
+
+    return $toret;
+}
+
+function v_youtube_getSubtitle($chdir, $vidpref, $lang)
+{
+    if (file_exists($chdir . DIRECTORY_SEPARATOR . $vidpref . '.' . $lang . '.vtt')) {
+        return file_get_contents($chdir . DIRECTORY_SEPARATOR . $vidpref . '.' . $lang . '.vtt');
+    }
+
+    return null;
+}
+
 function v_youtube_getChannels()
 {
     $store = store_get_type_store('youtube');
@@ -113,5 +139,6 @@ function v_youtube_getChannels()
 
     return $toret;
 }
+
 
 require __DIR__ . '/../../_scr_override.php';

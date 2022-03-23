@@ -12,6 +12,7 @@ $chdn = v_youtube_getChannelDirName($chd);
 $vid = v_youtube_getVideoInfo($chd, $_GET['id']);
 
 $desc = v_youtube_getVideoDescription($chd, $vid['vpref']);
+$subs = v_youtube_getSubtitles($chd, $vid['vpref']);
 
 $sinfo = v_youtube_getChannelStoreInfo($chd);
 ?>
@@ -31,7 +32,12 @@ $sinfo = v_youtube_getChannelStoreInfo($chd);
         <div class="row mt-3">
             <div class="col">
                 <div id="vhold" class="ratio ratio-16x9">
-                    <video src="<?= $sinfo['srvprefix'] ?><?= str_replace('+', '%20', urlencode($chdn)) ?>/<?= str_replace('+', '%20', urlencode($vid['vpref'])) ?>.mkv" controls poster="thumb.php?channel=<?= $_GET['channel'] ?>&id=<?= $_GET['id'] ?>"></video>
+                    <video controls poster="thumb.php?channel=<?= $_GET['channel'] ?>&id=<?= $_GET['id'] ?>">
+                        <source src="<?= $sinfo['srvprefix'] ?><?= str_replace('+', '%20', urlencode($chdn)) ?>/<?= str_replace('+', '%20', urlencode($vid['vpref'])) ?>.mkv">
+                        <?php foreach ($subs as $lang => $sub) : ?>
+                            <track kind="subtitles" src="subtitle.php?channel=<?= $_GET['channel'] ?>&id=<?= $_GET['id'] ?>&lang=<?= $lang ?>" srclang="<?= $lang ?>" label="<?= $lang ?>">
+                        <?php endforeach; ?>
+                    </video>
                 </div>
             </div>
         </div>
