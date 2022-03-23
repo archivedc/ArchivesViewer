@@ -37,6 +37,13 @@ $sinfo = v_youtube_getChannelStoreInfo($chd);
         </div>
         <div class="row mt-3">
             <div class="col">
+                <h1 style="font-size:18pt"><?= $vid['info']['title'] ?></h1>
+                <small>Uploaded in <?= $vid['info']['release_date'] ?></small>
+                <p>
+                    <img src="userimage.php?channel=<?= $_GET['channel'] ?>" class="rounded-circle" height="40px" alt="User image">
+                    <a href="channel.php?channel=<?= $_GET['channel'] ?>"><?= $chi['uploader'] ?></a>
+                </p>
+                <hr />
                 <div id="desc">
                     <pre>
 <?= $desc ?>

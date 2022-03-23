@@ -6,7 +6,7 @@ if (!isset($_GET['channel']))
     die('No channel specified');
 
 $chd = v_youtube_getChannelDir($_GET['channel']);
-$chi = v_youtube_getChannelInfo($chd, $chinfo);
+$chi = v_youtube_getChannelInfo($chd);
 
 $contents = v_youtube_getChannelContents($chd);
 
