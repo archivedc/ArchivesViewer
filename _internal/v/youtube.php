@@ -54,7 +54,7 @@ function v_youtube_getChannelContents($chdir)
 {
     $toret = array();
 
-    foreach (scandir($chdir) as $file) {
+    foreach (scandir($chdir, 1) as $file) {
         if (!str_starts_with($file, 'NA_') && str_ends_with($file, '.info.json')) {
             $toret += array(
                 substr($file, 0, -10) => json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true)
