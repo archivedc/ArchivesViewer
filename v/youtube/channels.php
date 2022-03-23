@@ -23,7 +23,7 @@ $chs = v_youtube_getChannels();
         </div>
         <div class="row mt-3">
             <?php foreach ($chs as $ch) : ?>
-                <div class="col-3 p-2">
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2 p-2">
                     <div class="card">
                         <img src="userimage.php?channel=<?= $ch['uploader_id'] ?>" class="card-img-top" alt="User image">
                         <div class="card-body">

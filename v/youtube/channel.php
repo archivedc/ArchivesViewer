@@ -34,7 +34,7 @@ $contents = v_youtube_getChannelContents($chd);
         </div>
         <div class="row mt-3">
             <?php foreach ($contents as $dir => $info) : ?>
-                <div class="col-3 p-2">
+                <div class="col-6 col-md-4 col-xl-3 p-2">
                     <div class="card">
                         <img src="thumb.php?channel=<?= $_GET['channel'] ?>&id=<?= $info['id'] ?>" class="card-img-top" alt="Thumbnail">
                         <div class="card-body">
