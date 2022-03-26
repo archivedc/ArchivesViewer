@@ -140,6 +140,4 @@ function v_youtube_getChannels()
     return $toret;
 }
 
-ini_set("memory_limit", "1G");
-
 require __DIR__ . '/../../_scr_override.php';
