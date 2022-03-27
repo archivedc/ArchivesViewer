@@ -40,7 +40,7 @@ $sinfo = v_youtube_getChannelStoreInfo($chd);
             <div class="col">
                 <div id="vhold" class="ratio ratio-16x9">
                     <video controls poster="thumb.php?channel=<?= $_GET['channel'] ?>&id=<?= $_GET['id'] ?>">
-                        <source src="<?= $sinfo['srvprefix'] ?><?= str_replace('+', '%20', urlencode($chdn)) ?>/<?= str_replace('+', '%20', urlencode($vid['vpref'])) ?>.mkv">
+                        <source src="<?= $sinfo['srvprefix'] ?><?= rawurlencode($chdn) ?>/<?= rawurlencode($vid['vpref']) ?>.mkv">
                         <?php foreach ($subs as $lang => $sub) : ?>
                             <track kind="subtitles" src="subtitle.php?channel=<?= $_GET['channel'] ?>&id=<?= $_GET['id'] ?>&lang=<?= $lang ?>" srclang="<?= $lang ?>" label="<?= $lang ?>">
                         <?php endforeach; ?>
