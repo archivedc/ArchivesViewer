@@ -50,6 +50,18 @@ function v_youtube_getChannelDirName($chdir)
     return basename($chdir);
 }
 
+function v_youtube_removeUnusedVideoInfoData($data)
+{
+    $toret = array(
+        'release_date' => $data['release_date'] ?? null,
+        'upload_date' => $data['upload_date'] ?? null,
+        'title' => $data['title'] ?? null,
+        'id' => $data['id'] ?? null,
+    );
+
+    return $toret;
+}
+
 function v_youtube_getChannelContents($chdir)
 {
     $toret = array();
@@ -57,7 +69,7 @@ function v_youtube_getChannelContents($chdir)
     foreach (scandir($chdir, 1) as $file) {
         if (!str_starts_with($file, 'NA_') && str_ends_with($file, '.info.json')) {
             $toret += array(
-                substr($file, 0, -10) => json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true)
+                substr($file, 0, -10) => v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true))
             );
         }
     }
@@ -71,7 +83,7 @@ function v_youtube_getVideoInfo($chdir, $id)
         if (str_ends_with($file, $id . '.info.json')) {
             return array(
                 'vpref' => substr($file, 0, -10),
-                'info' => json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true)
+                'info' => v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true))
             );
         }
     }
