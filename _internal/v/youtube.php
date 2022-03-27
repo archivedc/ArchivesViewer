@@ -62,19 +62,35 @@ function v_youtube_removeUnusedVideoInfoData($data)
     return $toret;
 }
 
-function v_youtube_getChannelContents($chdir)
+function v_youtube_getChannelContentsJsonPaths($chdir)
 {
     $toret = array();
 
     foreach (scandir($chdir, 1) as $file) {
         if (!str_starts_with($file, 'NA_') && str_ends_with($file, '.info.json')) {
-            $toret += array(
-                substr($file, 0, -10) => v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true))
-            );
+            $toret[] = $file;
         }
     }
 
     return $toret;
+}
+
+function v_youtube_getChannelContents($chdir)
+{
+    $toret = array();
+
+    foreach (v_youtube_getChannelContentsJsonPaths($chdir) as $file) {
+        $toret += array(
+            substr($file, 0, -10) => v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true))
+        );
+    }
+
+    return $toret;
+}
+
+function v_youtube_getVideoInfoFromFilePath($path)
+{
+    return v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($path), true));
 }
 
 function v_youtube_getVideoInfo($chdir, $id)
@@ -83,7 +99,7 @@ function v_youtube_getVideoInfo($chdir, $id)
         if (str_ends_with($file, $id . '.info.json')) {
             return array(
                 'vpref' => substr($file, 0, -10),
-                'info' => v_youtube_removeUnusedVideoInfoData(json_decode(file_get_contents($chdir . DIRECTORY_SEPARATOR . $file), true))
+                'info' => v_youtube_getVideoInfoFromFilePath($chdir . DIRECTORY_SEPARATOR . $file)
             );
         }
     }
@@ -132,7 +148,7 @@ function v_youtube_getSubtitle($chdir, $vidpref, $lang)
     return null;
 }
 
-function v_youtube_getChannels()
+function v_youtube_getChannelsDirs()
 {
     $store = store_get_type_store('youtube');
 
@@ -142,11 +158,23 @@ function v_youtube_getChannels()
         foreach (array_diff(scandir($path), array('.', '..')) as $file) {
             $dir = $path . DIRECTORY_SEPARATOR . $file;
             if (is_dir($dir)) {
-                $ci = v_youtube_getChannelInfo($dir);
-                if ($ci != null && $ci['uploader_id'] != null)
-                    array_push($toret, $ci);
+                $toret[] = $dir;
             }
         }
+    }
+
+    return $toret;
+}
+
+
+function v_youtube_getChannels()
+{
+    $toret = array();
+
+    foreach (v_youtube_getChannelsDirs() as $dir) {
+        $ci = v_youtube_getChannelInfo($dir);
+        if ($ci != null && $ci['uploader_id'] != null)
+            array_push($toret, $ci);
     }
 
     return $toret;
